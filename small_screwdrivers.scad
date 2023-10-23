@@ -16,13 +16,14 @@ $fn = 32;
 function peg_board_holes_to_mm(x) = INCH * x;
 
 module hook_rest() {
-  dist_from_board = 3;
+  angle = 70.1;
+  dist_from_board = 4;
   T=5;
   H=15;
   x = depth-dist_from_board > 25-dist_from_board ? 25-dist_from_board : depth-dist_from_board;
   tcmds = [
-    "right",90, "move",5, "arcleft",5,120, "untilx",x,
-    "left",60, "untily", 0
+    "right",90, "move",5, "arcleft",5,180-angle, "untilx",x,
+    "left",angle, "untily", 0
   ];
   path = turtle(tcmds);
   translate([dist_from_board,0,-T/2]) linear_extrude(height=T, convexity=10) polygon(path);
