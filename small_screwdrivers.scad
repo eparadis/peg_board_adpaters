@@ -26,8 +26,17 @@ module hook_rest() {
   ];
   path = turtle(tcmds);
   translate([dist_from_board,0,-T/2]) linear_extrude(height=T, convexity=10) polygon(path);
+
+  // outside support
   translate([0,-H,T/2]) cube([x+dist_from_board,H,3]);
-  translate([0,-H,-T/2-3]) cube([depth,H,3]);
+
+  // inside support
+  radius = min( H-3, depth-(x+dist_from_board));
+  echo(radius);
+  translate([0,0,-T/2-3]) linear_extrude(height=3) polygon(turtle([
+    "move",depth-radius, "arcright",radius,90, "untily",-H,
+    "right",90, "untilx",0,
+  ]));
 }
 
 module shelf(D, W) {
