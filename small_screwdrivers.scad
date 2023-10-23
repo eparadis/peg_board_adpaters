@@ -24,7 +24,7 @@ function peg_board_holes_to_mm(x) = INCH * x;
 module hook_rest() {
   angle = 70.1;
   dist_from_board = 4;
-  T=5;
+  T=3.8;
   H=height;
   g = 30;
   x = depth-dist_from_board > g-dist_from_board ? g-dist_from_board : depth-dist_from_board;
