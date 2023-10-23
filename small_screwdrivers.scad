@@ -3,13 +3,18 @@
 
 include <BOSL2/std.scad>
 
-size_in_pegs = 4;
+size_in_pegs = 3;
 depth = 25;
-hole_diameter = 5;
+hole_diameter = 3.1;
 holes_per_peg = 2;
-two_rows = false;
+two_rows = true;
+second_row_diameter = 5.5;
 
 module _stop_customizer() {}
+
+// the screw drivers I want to hang with this have the following diameters:
+// 4.32, 1.42, 1.97, 3.11, 2.36, 2.95, 3.80
+
 
 $fn = 32;
 
@@ -33,7 +38,6 @@ module hook_rest() {
 
   // inside support
   radius = min( H-3, depth-(x+dist_from_board));
-  echo(radius);
   translate([0,0,-T/2-3]) linear_extrude(height=3) polygon(turtle([
     "move",depth-radius, "arcright",radius,90, "untily",-H,
     "right",90, "untilx",0,
@@ -45,10 +49,11 @@ module shelf(D, W) {
   cube([3,W-5,15]);
 }
 
-module holes(W) {
+module holes(W, dia) {
   for (i=[0:peg_board_holes_to_mm(1/holes_per_peg):W-25]) {
-    translate([0, i+10, -20]) cylinder(h=30, d=hole_diameter);
+    translate([0, i+10, -20]) cylinder(h=30, d=dia);
   }
+  echo(str("hole spacing is: ", peg_board_holes_to_mm(1/holes_per_peg)));
 }
 
 module shelf_with_holes(W) {
@@ -56,10 +61,11 @@ module shelf_with_holes(W) {
   difference() {
     shelf(D, W);
     if(two_rows) {
-      translate([3+(depth-3)*.25,0,0]) holes(W);
-      translate([3+(depth-3)*.67,0,0]) holes(W);
+      translate([3+(depth-3)*.25,0,0]) holes(W, hole_diameter);
+      translate([3+(depth-3)*.67,0,0]) holes(W, second_row_diameter);
+      echo(str("distance between rows (center to center): ", (depth-3)*.67 - (depth-3)*.25));
     } else {
-      translate([3+depth/2,0,0]) holes(W);
+      translate([3+depth/2,0,0]) holes(W, hole_diameter);
     }
   }
 }
