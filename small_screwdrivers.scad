@@ -10,6 +10,7 @@ holes_per_peg = 2;
 two_rows = true;
 second_row_diameter = 5.5;
 height = 20;
+shelf_thickness = 3;
 
 module _stop_customizer() {}
 
@@ -46,14 +47,14 @@ module hook_rest() {
   ]));
 }
 
-module shelf(D, W) {
-  cube([D, W-5, 3]);
+module shelf(D, W, T) {
+  cube([D, W-5, T]);
   cube([3,W-5,height]);
 }
 
 module holes(W, dia) {
   for (i=[0:peg_board_holes_to_mm(1/holes_per_peg):W-25]) {
-    translate([0, i+10, -height-5]) cylinder(h=30, d=dia);
+    translate([0, i+10, -10]) cylinder(h=height*2, d=dia);
   }
   echo(str("hole spacing is: ", peg_board_holes_to_mm(1/holes_per_peg)));
 }
@@ -61,7 +62,7 @@ module holes(W, dia) {
 module shelf_with_holes(W) {
   D = depth;
   difference() {
-    shelf(D, W);
+    shelf(D, W, shelf_thickness);
     if(two_rows) {
       translate([3+(depth-3)*.25,0,0]) holes(W, hole_diameter);
       translate([3+(depth-3)*.67,0,0]) holes(W, second_row_diameter);

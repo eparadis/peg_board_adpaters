@@ -14,6 +14,16 @@
             "holes_per_peg": "2",
             "size_in_pegs": "4",
             "two_rows": "true"
+        },
+        "more support for tools": {
+            "depth": "34",
+            "height": "29",
+            "hole_diameter": "3.1000000000000001",
+            "holes_per_peg": "2",
+            "second_row_diameter": "5.5",
+            "shelf_thickness": "10",
+            "size_in_pegs": "3",
+            "two_rows": "true"
         }
     }
 }
