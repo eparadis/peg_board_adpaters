@@ -7,6 +7,7 @@ size_in_pegs = 4;
 depth = 25;
 hole_diameter = 5;
 holes_per_peg = 2;
+two_rows = false;
 
 module _stop_customizer() {}
 
@@ -34,12 +35,21 @@ module shelf(D, W) {
   cube([3,W-5,15]);
 }
 
+module holes(W) {
+  for (i=[0:peg_board_holes_to_mm(1/holes_per_peg):W-25]) {
+    translate([0, i+10, -20]) cylinder(h=30, d=hole_diameter);
+  }
+}
+
 module shelf_with_holes(W) {
   D = depth;
   difference() {
     shelf(D, W);
-    for (i=[0:peg_board_holes_to_mm(1/holes_per_peg):W-25]) {
-      translate([3+depth/2, i+10, -20]) cylinder(h=30, d=hole_diameter);
+    if(two_rows) {
+      translate([3+(depth-3)*.25,0,0]) holes(W);
+      translate([3+(depth-3)*.67,0,0]) holes(W);
+    } else {
+      translate([3+depth/2,0,0]) holes(W);
     }
   }
 }
@@ -48,7 +58,6 @@ module screwdriver_holder(hook_distance) {
   W = hook_distance;
   D = depth;
   rotate([90,0,0]) hook_rest();
-  //translate([0,W,0]) rotate([90,0,0]) hook_rest();
   mirror([0,1,0]) translate([0,-W,0]) rotate([90,0,0]) hook_rest();
   
   translate([0,2.5,-15]) shelf_with_holes(W);
