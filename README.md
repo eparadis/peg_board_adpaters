@@ -32,6 +32,10 @@ The same as `hole_diameter` but for the second row of holes.
 
 The overall height of the shelf. Increase this to make the shelf “taller” which can help stability for larger tools by putting the center of gravity lower.
 
+## `shelf_thickness`
+
+The thickness of the shelf itself. Increase this to provide more support for your tools if they tend to flop over.
+
 # Printing
 
 You can print this in any orientation that makes sense to you for where you want the strength to be. You'll need to use supports most likely no matter what, but you won't need much.
